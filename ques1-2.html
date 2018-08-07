@@ -1,0 +1,99 @@
+<?php
+session_start();
+ require_once('database.php');
+ $input = mt_rand(1,20);
+if (!isset($_SESSION)){
+    include('signin.php');
+} else if(isset($_POST['next'])){
+
+$query = 'select * from questions where question_id = :input';
+$statement = $db->prepare($query);
+$statement->bindValue(':input', $input);
+$statement->execute();
+$product = $statement->fetch();
+
+$choice = $_POST['question-option'];
+$ans = $_POST['ans'];
+if($choice == $ans){
+    $number += 1;
+}
+
+} else {
+    
+    
+ $query = 'select * from questions where question_id = :input';
+$statement = $db->prepare($query);
+$statement->bindValue(':input', $input);
+$statement->execute();
+$product = $statement->fetch(); 
+}
+
+?>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Question</title>
+
+<link href="css/ques.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+</head>
+<body>
+  <div class="ques">
+
+<form action="#" method="post">
+
+
+<h1> <?php echo $product['question']; ?></h1>
+
+<div>
+
+<input type="radio" name="question-option" id="question-1-answers-A" value="A" />
+
+<label for="question-1-answers-A">A) <?php echo $product['option_1']; ?></label>
+
+</div>
+
+<div>
+
+<input type="radio" name="question-option" id="question-1-answers-B" value="B" />
+
+<label for="question-1-answers-B">B) <?php echo $product['option_2']; ?></label>
+
+</div>
+
+<div>
+
+<input type="radio" name="question_option" id="question-1-answers-C" value="C" />
+
+<label for="question-1-answers-C">C) <?php echo $product['option_3']; ?></label>
+
+</div>
+
+<div>
+
+<input type="radio" name="question-option" id="question-1-answers-D" value="D" />
+
+<label for="question-1-answers-D">D) <?php echo $product['option_4']; ?></label>
+
+</div>
+<input type="hidden" name="ans" value="<?php echo $product['answer']; ?>">
+<div class="bgimg-1">
+  <div class="caption">
+
+  <a href="#"><button class="button" type="submit" style="vertical-align:middle"><span>Next Question</span></button></a>
+
+
+</div>
+</div>
+
+
+</form>
+
+</div>
+
+</body>
+</html>
